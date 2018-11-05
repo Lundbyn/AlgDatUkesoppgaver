@@ -7,32 +7,52 @@ package hjelpeklasser;
 
 import java.util.*;
 
+import static java.util.Objects.hash;
+
 
 public class Main {
 
     public static void main(String[] args) {
 
-        int[] posisjon = {1,2,3,4,5,6,7,8,9,10};             // posisjoner og
-        Character[] verdi = {'A','B','C','D','E','F','G','H','I','J'};             // verdier i nivåorden
+        int n = 193;
+        int[] a = new int[n];
 
-        BinTre<Character> tre = new BinTre<>(posisjon, verdi);  // konstruktør
+        String s = "";
+        int i = 0;
+        while (i < 400) {
+            if(i < 10) {
+                s = "A00" + i;
+            }
+            else if(i < 100) {
+                s = "A0" + i;
+            }
+            else {
+                s = "A" + i;
+            }
 
-        //tre.nivåorden(c -> System.out.print(c));      // for-alle-løkke
-        // Utskrift: H D I B J E A F C G
-        System.out.println();
+            System.out.println(hash(s));
 
-        for (Iterator<Character> iterator = tre.iterator(); iterator.hasNext();) {
-            System.out.print(iterator.next());
+            i++;
         }
-        System.out.println();
-        for(Iterator<Character> omvendtIterator = tre.omvendtIterator(); omvendtIterator.hasNext();){
-            System.out.print(omvendtIterator.next());
-        }
-        System.out.println();
-        for(Iterator<Character> preordenIterator = tre.preIterator(); preordenIterator.hasNext(); ) {
-            System.out.print(preordenIterator.next());
-        }
+
+        int sHash = s.hashCode() % n;
+        System.out.println(sHash);
+
     }
+
+    public static int hash(String s)
+    {
+        int h = 0;
+        for (int i = 0; i < s.length(); i++)
+        {
+            h = (h << 4) + s.charAt(i);
+            int g = h & 0xf0000000;
+            if (g != 0) h ^= (g >>> 24);
+            h &= ~g;
+        }
+        return h;
+    }
+
 
     public static <T> void sorter(Kø<T> kø, Stakk<T> stakk, Comparator<T> c){
         int n = kø.antall();
@@ -165,8 +185,6 @@ public class Main {
         Tabell.innsettingssortering(a);
         Tabell.skriv(a);
     }
-
-
 
 
 }
